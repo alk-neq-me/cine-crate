@@ -1,6 +1,7 @@
 from typing import Final
 from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from aioredis import Redis
 import time
 
@@ -12,6 +13,14 @@ from redis_connect import redis_connect
 app = FastAPI(
     title="Movie List",
     dependencies=[],
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://192.168.100.253:39842"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(movies.router)
